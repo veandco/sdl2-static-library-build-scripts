@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 TARGET="i686-linux-gnu"
-SDL2_VERSION=2.0.16
 LIBDIR=build/.libs
+
+
 
 cd SDL2-${SDL2_VERSION}
 mkdir -p .go-sdl2-libs/include/SDL2
