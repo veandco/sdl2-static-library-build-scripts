@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 
-#TARGET="arm64-apple-darwin20.2"
 TARGET="aarch64-apple-darwin20.4"
 LIBDIR=build/.libs
 OSXCROSS="$PWD/osxcross"
-#CLANG_HOST="arm64-apple-darwin20.2"
 CLANG_HOST="aarch64-apple-darwin20.4"
 
 cd SDL2-${SDL2_VERSION}
 mkdir -p .go-sdl2-libs/include/SDL2
 
 rm -r build-darwin-arm64 2> /dev/null
-SDK_VERSION=11.1
+SDK_VERSION=11.3
 DARWIN="${OSXCROSS}/target"
 DARWIN_SDK="${DARWIN}/SDK/MacOSX${SDK_VERSION}.sdk"
 OSXCROSS_PKG_CONFIG="${TARGET}-pkg-config"
@@ -21,7 +19,7 @@ export LDFLAGS="-L${DARWIN}/lib -L${DARWIN_SDK}/usr/lib -mmacosx-version-min=11.
 export CC="${TARGET}-clang"
 export CXX="${TARGET}-clang++"
 mkdir -p build-darwin-arm64 && cd build-darwin-arm64
-../configure --host=${CLANG_HOST} --prefix="${DARWIN_SDK}"
+../configure --disable-joystick-mfi --host=${CLANG_HOST} --prefix="${DARWIN_SDK}"
 make -j$(nproc)
 make install
 cp ${LIBDIR}/libSDL2.a ${LIBDIR}/libSDL2.a.debug
