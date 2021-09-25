@@ -9,7 +9,8 @@ First I clone the repository and then I use Podman to run Ubuntu 20.04 LTS conta
 ```
 git clone https://github.com/veandco/sdl2-static-library-build-scripts
 cd sdl2-static-library-build-scripts
-podman run -it -v .:/opt --name sdl2  ubuntu:20.04 bash
+podman run -it -v .:/opt --name sdl2 ubuntu:20.04 bash
+cd /opt
 ./setup.sh
 ```
 
