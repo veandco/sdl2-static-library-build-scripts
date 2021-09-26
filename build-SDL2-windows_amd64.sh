@@ -13,7 +13,7 @@ export CC="${TARGET}-gcc"
 export CXX="${TARGET}-g++"
 export RC="${TARGET}-windres"
 mkdir -p build-windows-amd64 && cd build-windows-amd64
-../configure --host=${TARGET} --prefix="$HOME/.local/${TARGET}"
+../configure --host=${TARGET} --prefix="$HOME/.${TARGET}"
 make -j$(nproc)
 make install
 #cp ${LIBDIR}/libSDL2.a ${LIBDIR}/libSDL2.a.debug

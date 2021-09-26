@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+NAME=SDL2_image
 TARGET="arm-linux-androideabi"
-LIBDIR=build/.libs
+LIBDIR=.libs
 
-cd SDL2-${SDL2_VERSION}
+
+cd ${NAME}-${VERSION}
 mkdir -p .go-sdl2-libs/include/SDL2
 rm -r build-android-arm 2> /dev/null
 
@@ -14,10 +16,9 @@ mkdir -p build-android_arm && cd build-android_arm
 ../configure --prefix="$HOME/.${TARGET}"
 make -j$(nproc)
 make install
-cp ${LIBDIR}/libSDL2.a ${LIBDIR}/libSDL2.a.debug
-arm-linux-androideabi-strip ${LIBDIR}/libSDL2.a
-arm-linux-androideabi-ranlib ${LIBDIR}/libSDL2.a
-cp ${LIBDIR}/libSDL2.a ../.go-sdl2-libs/libSDL2_android_arm.a
-cp include/SDL_config.h ../.go-sdl2-libs/include/SDL2/SDL_config_android_arm.h
+cp ${LIBDIR}/lib${NAME}.a ${LIBDIR}/lib${NAME}.a.debug
+${TARGET}-strip ${LIBDIR}/lib${NAME}.a
+${TARGET}-ranlib ${LIBDIR}/lib${NAME}.a
+cp ${LIBDIR}/lib${NAME}.a ../.go-sdl2-libs/lib${NAME}_android_arm.a
 
 cd ..

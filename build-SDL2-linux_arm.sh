@@ -13,7 +13,7 @@ export CC="arm-linux-gnueabi-gcc"
 export CXX="arm-linux-gnueabi-g++"
 
 mkdir -p build-linux-arm && cd build-linux-arm
-../configure --disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles --prefix="$HOME/.${TARGET}" --host="${TARGET}"
+../configure --prefix="$HOME/.${TARGET}" --host="${TARGET}" --disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles
 make -j$(nproc)
 make install
 cp ${LIBDIR}/libSDL2.a ${LIBDIR}/libSDL2.a.debug

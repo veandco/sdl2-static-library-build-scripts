@@ -9,8 +9,6 @@ cd SDL2-${SDL2_VERSION}
 mkdir -p .go-sdl2-libs/include/SDL2
 
 rm -r build-linux-386 2> /dev/null
-export CC="gcc -m32"
-export CXX="g++ -m32"
 
 mkdir -p build-linux-386 && cd build-linux-386
 ../configure --prefix="$HOME/.${TARGET}" --host="${TARGET}"
