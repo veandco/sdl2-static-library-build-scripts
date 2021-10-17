@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export NAME=SDL2_image
-export VERSION=2.0.5
+export NAME=freetype
+export VERSION=2.9.1
 
 eprintln() {
 	echo "$1" >&2
@@ -23,21 +23,21 @@ platforms=(
 # Check if we have source code
 if ! [ -d "${NAME}-${VERSION}" ]; then
 	eprintln "${NAME} source doesn't exist"
-	if ! [ -e "${NAME}-${VERSION}.zip" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_image/release/${NAME}-${VERSION}.zip"
+	if ! [ -e "${NAME}-${VERSION}.tar.gz" ]; then
+		curl --fail -O -L "https://download.savannah.gnu.org/releases/freetype/${NAME}-${VERSION}.tar.gz"
 		ret=$?
 		if [ $ret != 0 ]; then
-			eprintln "Could not download ${NAME}-${VERSION}.zip!"
+			eprintln "Could not download ${NAME}-${VERSION}.tar.gz!"
 			exit $ret
 		fi
 	fi
 
-	unzip "${NAME}-${VERSION}"
+	tar xf "${NAME}-${VERSION}".tar.gz
 fi
 
 # Build SDL2 for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2 is already built for this platform
+	# Check if already built for this platform
 	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue

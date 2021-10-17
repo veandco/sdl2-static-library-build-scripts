@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export TARGET="arm-linux-androideabi"
-export LIBDIR=.libs
+export LIBDIR=build/.libs
 
 ./common-${ARCH}.sh
 

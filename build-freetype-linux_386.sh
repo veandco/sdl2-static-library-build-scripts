@@ -3,6 +3,6 @@
 export TARGET="i686-linux-gnu"
 export LIBDIR=.libs
 
-./common-${ARCH}.sh --host=${TARGET}
+./common-${ARCH}.sh --host=${TARGET} --enable-freetype-config
 
 cd ..

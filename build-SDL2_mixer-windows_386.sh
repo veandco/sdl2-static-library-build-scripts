@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export TARGET="arm-linux-gnu"
-export LIBDIR=.libs
+export TARGET="i686-w64-mingw32"
+export LIBDIR=build/.libs
 
 ./common-${ARCH}.sh --host=${TARGET}
 

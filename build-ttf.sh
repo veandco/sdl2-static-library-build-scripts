@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export NAME=SDL2_image
-export VERSION=2.0.5
+export NAME=SDL2_ttf
+export VERSION=2.0.14
 
 eprintln() {
 	echo "$1" >&2
@@ -24,7 +24,7 @@ platforms=(
 if ! [ -d "${NAME}-${VERSION}" ]; then
 	eprintln "${NAME} source doesn't exist"
 	if ! [ -e "${NAME}-${VERSION}.zip" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_image/release/${NAME}-${VERSION}.zip"
+		curl --fail -O -L "https://libsdl.org/projects/SDL_ttf/release/${NAME}-${VERSION}.zip"
 		ret=$?
 		if [ $ret != 0 ]; then
 			eprintln "Could not download ${NAME}-${VERSION}.zip!"

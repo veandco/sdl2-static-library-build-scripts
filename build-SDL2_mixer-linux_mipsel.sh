@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export TARGET="arm-linux-gnu"
-export LIBDIR=.libs
+export TARGET="mipsel-linux-gnu"
+export LIBDIR=build/.libs
 
 ./common-${ARCH}.sh --host=${TARGET}
 

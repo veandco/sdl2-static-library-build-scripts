@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export NAME=SDL2_image
-export VERSION=2.0.5
+export NAME=SDL2
+export VERSION=2.0.16
 
 eprintln() {
 	echo "$1" >&2
@@ -20,11 +20,11 @@ platforms=(
 	windows_386
 )
 
-# Check if we have source code
+# Check if we have SDL2 source code
 if ! [ -d "${NAME}-${VERSION}" ]; then
-	eprintln "${NAME} source doesn't exist"
+	eprintln "SDL2 source doesn't exist"
 	if ! [ -e "${NAME}-${VERSION}.zip" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_image/release/${NAME}-${VERSION}.zip"
+		curl --fail -O -L "https://libsdl.org/release/${NAME}-${VERSION}.zip"
 		ret=$?
 		if [ $ret != 0 ]; then
 			eprintln "Could not download ${NAME}-${VERSION}.zip!"
@@ -38,14 +38,15 @@ fi
 # Build SDL2 for all platforms
 for platform in ${platforms[@]}; do
 	# Check if SDL2 is already built for this platform
-	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
-		eprintln "${NAME} has already been built for ${platform}"
+	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/libSDL2_${platform}.a" ] && [ -e "${NAME}-${VERSION}/.go-sdl2-libs/include/SDL2/SDL_config_${platform}.h" ]; then
+		eprintln "SDL2 has already been built for ${platform}"
 		continue
 	fi
-	eprintln "Building ${NAME} for $platform"
+	eprintln "Building SDL2 for $platform"
 
 	export ARCH=${platform}
 	"./build-${NAME}-${platform}.sh"
 done
 
 cp ${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}*.a go-sdl2/.go-sdl2-libs/
+cp ${NAME}-${VERSION}/.go-sdl2-libs/include/SDL2/*.h go-sdl2/.go-sdl2-libs/include/SDL2/
