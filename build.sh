@@ -6,6 +6,7 @@ projects=(
 	mixer
 	freetype
 	ttf
+	gfx
 )
 
 for project in ${projects[@]}; do
