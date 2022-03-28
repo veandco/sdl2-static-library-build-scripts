@@ -1,0 +1,15 @@
+---
+version: "3.7"
+
+services:
+  sdl_builder:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: final
+    image: veandco/static-sdl-builder
+    environment:
+      APP_ENV: "${NDK_VERSION:-r24}"
+    volumes:
+      - .:/buildscripts
+      - .output:/output
