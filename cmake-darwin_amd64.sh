@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-ARCH=darwin_amd64
-
 cd ${NAME}-${VERSION}
 rm -r build-${ARCH} 2> /dev/null
-SDK_VERSION=10.14
+SDK_VERSION=10.11
 DARWIN="${OSXCROSS}/target"
 DARWIN_SDK="${DARWIN}/SDK/MacOSX${SDK_VERSION}.sdk"
 
@@ -13,13 +11,11 @@ export LDFLAGS="-L${DARWIN_SDK}/lib -mmacosx-version-min=10.10"
 export CC="${TARGET}-clang"
 export CXX="${TARGET}-clang++"
 mkdir -p build-${ARCH} && cd build-${ARCH}
-../configure --prefix="${DARWIN_SDK}" $@
+cmake .. -DCMAKE_HOST_SYSTEM="${TARGET}" -DCMAKE_INSTALL_PREFIX:PATH="${DARWIN_SDK}" -D BuildType=Release -D LibraryType=static
 make -j$(nproc)
 make install
-cp ${LIBDIR}/${LIBNAME}.a ${LIBDIR}/${LIBNAME}.a.debug
-#${TARGET}-strip -x ${LIBDIR}/${LIBNAME}.a
-#${TARGET}-ranlib ${LIBDIR}/${LIBNAME}.a
+cp lib${LIBRARY_NAME}.a lib${LIBRARY_NAME}.a.debug
+${TARGET}-strip -x lib${LIBRARY_NAME}.a
+${TARGET}-ranlib lib${LIBRARY_NAME}.a
 mkdir -p ../.go-sdl2-libs
-cp ${LIBDIR}/${LIBNAME}.a ../.go-sdl2-libs/${LIBNAME}_${ARCH}.a
-
-cd ..
+cp lib${LIBRARY_NAME}.a ../.go-sdl2-libs/lib${LIBRARY_NAME}_${ARCH}.a

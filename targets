@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+declare -A TARGETS
+TARGETS[linux_amd64]="x86_64-linux-gnu"
+TARGETS[linux_386]="i686-linux-gnu"
+TARGETS[linux_arm]="arm-linux-gnu"
+TARGETS[linux_arm_rpi]="arm-linux-gnu"
+TARGETS[linux_arm_vivante]="arm-linux-gnu"
+TARGETS[linux_mipsel]="mipsel-linux-gnu"
+TARGETS[android_arm]="arm-linux-androideabi"
+TARGETS[darwin_amd64]="x86_64-apple-darwin18"
+TARGETS[windows_amd64]="x86_64-w64-mingw32"
+TARGETS[windows_386]="i686-w64-mingw32"

@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 
+ARCH=linux_arm_rpi
+
 cd ${NAME}-${VERSION}
 rm -r build-${ARCH} 2> /dev/null
 
 export CC="arm-linux-gnueabi-gcc"
 export CXX="arm-linux-gnueabi-g++"
-
 export PATH="$HOME/.${TARGET}-rpi/bin:${PATH}"
 mkdir -p build-${ARCH} && cd build-${ARCH}
-../configure --host=${TARGET} --prefix="$HOME/.${TARGET}-rpi" $@
+../configure --host="${TARGET}" --prefix="$HOME/.${TARGET}-rpi" $@
 make -j$(nproc)
 make install
-cp ${LIBDIR}/lib${NAME}.a ${LIBDIR}/lib${NAME}.a.debug
-arm-linux-gnueabi-strip ${LIBDIR}/lib${NAME}.a
-arm-linux-gnueabi-ranlib ${LIBDIR}/lib${NAME}.a
+cp ${LIBDIR}/${LIBNAME}.a ${LIBDIR}/${LIBNAME}.a.debug
+#arm-linux-gnueabi-strip ${LIBDIR}/${LIBNAME}.a
+#arm-linux-gnueabi-ranlib ${LIBDIR}/${LIBNAME}.a
 mkdir -p ../.go-sdl2-libs
-cp ${LIBDIR}/lib${NAME}.a ../.go-sdl2-libs/lib${NAME}_${ARCH}.a
+cp ${LIBDIR}/${LIBNAME}.a ../.go-sdl2-libs/${LIBNAME}_${ARCH}.a
+
+cd ..
