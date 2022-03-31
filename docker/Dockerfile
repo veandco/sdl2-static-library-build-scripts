@@ -15,7 +15,7 @@ RUN dpkg --add-architecture i386; \
 # Needed for compiler-rt in osxcross (https://github.com/tpoechtrager/osxcross/issues/214#issuecomment-595279668)
 RUN ln -sf /usr/bin/llvm-config-10 /usr/bin/llvm-config
 
-FROM base as downloads
+FROM base as android_ndk
 
 ARG ANDROID_NDK_VERSION="r24"
 ENV ANDROID_NDK_VERSION ${ANDROID_NDK_VERSION}
@@ -24,18 +24,26 @@ RUN wget -O /opt/android-ndk.zip https://dl.google.com/android/repository/androi
     unzip -q /opt/android-ndk.zip -d /opt; \
     rm /opt/android-ndk.zip
 
-WORKDIR /buildscripts
+FROM android_ndk as macos
 
-RUN rm -rf osxcross; \
-    git clone https://github.com/tpoechtrager/osxcross; \
-    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX10.11.sdk.tar.xz; \
+WORKDIR /opt
+
+RUN git clone https://github.com/tpoechtrager/osxcross; \
+    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX10.14.sdk.tar.xz; \
     wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX11.3.sdk.tar.xz
 
-FROM downloads as final
+WORKDIR /opt/osxcross
+
+RUN UNATTENDED=1 SDK_VERSION=11.3 ./build.sh
+RUN UNATTENDED=1 SDK_VERSION=10.14 ./build.sh
+RUN ./build_compiler_rt.sh
+
+FROM macos as final
 
 ENV ANDROID_NDK "/opt/android-ndk-${ANDROID_NDK_VERSION}"
 ENV ANDROID_NDK_TARGET_ABI "30"
 
 ENV PATH "${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+ENV PATH "/opt/osxcross/target/bin:${PATH}"
 
 CMD tail -f /dev/null
