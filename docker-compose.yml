@@ -12,4 +12,4 @@ services:
       APP_ENV: "${NDK_VERSION:-r24}"
     volumes:
       - .:/buildscripts
-      - .output:/output
+      - ./output:/output

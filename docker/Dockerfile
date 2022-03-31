@@ -21,18 +21,21 @@ ARG ANDROID_NDK_VERSION="r24"
 ENV ANDROID_NDK_VERSION ${ANDROID_NDK_VERSION}
 
 RUN wget -O /opt/android-ndk.zip https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux.zip; \
-    unzip -q /opt/android-ndk.zip; \
+    unzip -q /opt/android-ndk.zip -d /opt; \
     rm /opt/android-ndk.zip
 
-RUN git clone https://github.com/tpoechtrager/osxcross; \
-    wget -P osxcross/tarballs \
-      https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX11.3.sdk.tar.xz \
-      https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX10.11.sdk.tar.xz
+WORKDIR /buildscripts
+
+RUN rm -rf osxcross; \
+    git clone https://github.com/tpoechtrager/osxcross; \
+    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX10.11.sdk.tar.xz; \
+    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX11.3.sdk.tar.xz
 
 FROM downloads as final
 
 ENV ANDROID_NDK "/opt/android-ndk-${ANDROID_NDK_VERSION}"
 ENV ANDROID_NDK_TARGET_ABI "30"
 
-
 ENV PATH "${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+
+CMD tail -f /dev/null
