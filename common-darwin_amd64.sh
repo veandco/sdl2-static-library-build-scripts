@@ -5,15 +5,17 @@ ARCH=darwin_amd64
 cd ${NAME}-${VERSION}
 rm -r build-${ARCH} 2> /dev/null
 SDK_VERSION=10.14
+OSXCROSS=/opt/osxcross
 DARWIN="${OSXCROSS}/target"
 DARWIN_SDK="${DARWIN}/SDK/MacOSX${SDK_VERSION}.sdk"
+echo ${DARWIN_SDK}
 
 export PATH="${DARWIN}/bin:${DARWIN_SDK}/bin:${PATH}"
 export LDFLAGS="-L${DARWIN_SDK}/lib -mmacosx-version-min=10.10"
 export CC="${TARGET}-clang"
 export CXX="${TARGET}-clang++"
 mkdir -p build-${ARCH} && cd build-${ARCH}
-../configure --prefix="${DARWIN_SDK}" $@
+../configure --host="${TARGET}" --prefix="${DARWIN_SDK}" $@
 make -j$(nproc)
 make install
 cp ${LIBDIR}/${LIBNAME}.a ${LIBDIR}/${LIBNAME}.a.debug
