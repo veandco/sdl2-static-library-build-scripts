@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-export NAME=SDL2
-export VERSION=2.0.20
+if [ -z $IMG_VERSION ]; then
+	IMG_VERSION=2.0.5
+fi
+
+export NAME=SDL2_image
+export VERSION=$IMG_VERSION
 export EXTRACT_COMMAND='unzip'
 export EXTENSION=zip
-export LIBDIR=build/.libs
-export LIBNAME=libSDL2
+export LIBDIR=.libs
+export LIBNAME=libSDL2_image
 
 source targets
 
@@ -22,13 +26,13 @@ BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
 
 declare -A EXTRA_ARGS
-EXTRA_ARGS[linux_amd64]="--disable-pulseaudio"
-EXTRA_ARGS[linux_386]="--disable-pulseaudio"
-EXTRA_ARGS[linux_arm]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[linux_arm_rpi]="--disable-video-wayland --disable-video-vivante --enable-video-rpi --disable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[linux_arm_vivante]="--disable-video-wayland --enable-video-vivante --disable-video-rpi --disable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[linux_mipsel]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[android_arm]="-DSDL_HIDAPI=OFF -DSDL_OPENGL=OFF -DSDL_VULKAN=OFF"
+EXTRA_ARGS[linux_amd64]=""
+EXTRA_ARGS[linux_386]=""
+EXTRA_ARGS[linux_arm]=""
+EXTRA_ARGS[linux_arm_rpi]=""
+EXTRA_ARGS[linux_arm_vivante]=""
+EXTRA_ARGS[linux_mipsel]=""
+EXTRA_ARGS[android_arm]=""
 EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
@@ -40,7 +44,7 @@ platforms=(
 	linux_arm_rpi
 	linux_arm_vivante
 	linux_mipsel
-	android_arm
+	#android_arm
 	darwin_amd64
 	windows_amd64
 	windows_386
@@ -54,7 +58,7 @@ eprintln() {
 if ! [ -d "${NAME}-${VERSION}" ]; then
 	eprintln "${NAME} source doesn't exist"
 	if ! [ -e "${NAME}-${VERSION}.${EXTENSION}" ]; then
-		curl --fail -O -L "https://libsdl.org/release/${NAME}-${VERSION}.${EXTENSION}"
+		curl --fail -O -L "https://libsdl.org/projects/SDL_image/release/${NAME}-${VERSION}.${EXTENSION}"
 		ret=$?
 		if [ $ret != 0 ]; then
 			eprintln "Could not download ${NAME}-${VERSION}.${EXTENSION}!"
@@ -65,9 +69,9 @@ if ! [ -d "${NAME}-${VERSION}" ]; then
 	${EXTRACT_COMMAND} "${NAME}-${VERSION}.${EXTENSION}"
 fi
 
-# Build SDL2 for all platforms
+# Build SDL2_image for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2 is already built for this platform
+	# Check if SDL2_image is already built for this platform
 	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue
@@ -76,6 +80,6 @@ for platform in ${platforms[@]}; do
 	eprintln "Building ${NAME} for $platform"
 	eprintln "PLATFORM: ${platform}"
 	eprintln "TARGET: ${TARGET}"
-	./${BUILDERS[$platform]}-${platform}.sh ${EXTRA_ARGS[$platform]}
+	./common-${platform}.sh ${EXTRA_ARGS[$platform]}
 	cp "${NAME}-${VERSION}/.go-sdl2-libs/${LIBNAME}_${platform}.a" go-sdl2/.go-sdl2-libs/
 done

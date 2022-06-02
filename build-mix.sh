@@ -1,8 +1,11 @@
-
 #!/usr/bin/env bash
 
+if [ -z $MIX_VERSION ]; then
+	MIX_VERSION=2.0.4
+fi
+
 export NAME=SDL2_mixer
-export VERSION=2.0.4
+export VERSION=$MIX_VERSION
 export EXTRACT_COMMAND='unzip'
 export EXTENSION=zip
 export LIBDIR=.libs
@@ -41,7 +44,7 @@ platforms=(
 	linux_arm_rpi
 	linux_arm_vivante
 	linux_mipsel
-	android_arm
+	#android_arm
 	darwin_amd64
 	windows_amd64
 	windows_386
