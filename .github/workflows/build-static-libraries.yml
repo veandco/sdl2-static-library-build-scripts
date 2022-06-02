@@ -1,0 +1,23 @@
+name: build-static-libraries
+on: [push]
+jobs:
+  build-static-libraries:
+    runs-on: ubuntu-20.04
+    env:
+      SDL_VERSION: 2.0.22
+      IMG_VERSION: 2.0.5
+      MIX_VERSION: 2.0.4
+      TTF_VERSION: 2.0.18
+      GFX_VERSION: 1.0.4
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup and Build
+        run: |
+          ./setup.sh
+          ./build.sh
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: sdl2-headers-and-libs
+          path: |
+            go-sdl2/.go-sdl2-libs
