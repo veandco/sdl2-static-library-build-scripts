@@ -5,7 +5,7 @@ ARCH=darwin_amd64
 cd ${NAME}-${VERSION}
 rm -r build-${ARCH} 2> /dev/null
 SDK_VERSION=10.14
-OSXCROSS=/opt/osxcross
+OSXCROSS="$PWD/osxcross"
 DARWIN="${OSXCROSS}/target"
 DARWIN_SDK="${DARWIN}/SDK/MacOSX${SDK_VERSION}.sdk"
 echo ${DARWIN_SDK}
