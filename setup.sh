@@ -3,7 +3,7 @@
 # Install system dependencies
 sudo dpkg --add-architecture i386
 sudo apt update
-sudo apt install -y make cmake git gcc g++ libxml2-dev libssl-dev zlib1g-dev{,:i386} libgl-dev{,:i386} {gcc,g++}-mipsel-linux-gnu curl clang unzip {gcc,g++}-arm-linux-gnueabi {gcc,g++}-i686-linux-gnu {gcc,g++}-mingw-w64 libxext-dev software-properties-common
+sudo apt install -y automake make cmake git gcc g++ libxml2-dev libssl-dev zlib1g-dev{,:i386} libgl-dev{,:i386} {gcc,g++}-mipsel-linux-gnu curl clang unzip {gcc,g++}-arm-linux-gnueabi {gcc,g++}-i686-linux-gnu {gcc,g++}-mingw-w64 libxext-dev software-properties-common
 
 # Android
 #sudo apt install -y google-android-ndk-installer
