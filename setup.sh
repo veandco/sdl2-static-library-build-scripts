@@ -17,7 +17,7 @@ cd osxcross/tarballs
 curl -O https://s3.veand.co/go-sdl2/MacOSX11.3.sdk.tar.xz
 curl -O https://s3.veand.co/go-sdl2/MacOSX10.14.sdk.tar.xz
 cd ..
-SDK_VERSION=11.3 ./build.sh
-SDK_VERSION=10.14 ./build.sh
+echo | SDK_VERSION=11.3 ./build.sh
+echo | SDK_VERSION=10.14 ./build.sh
 ./build_compiler_rt.sh
 cd ..
