@@ -11,10 +11,10 @@ jobs:
       GFX_VERSION: 1.0.4
     steps:
       - uses: actions/checkout@v3
-      - name: Setup and Build
-        run: |
-          ./setup.sh
-          ./build.sh
+      - name: Setup
+        run: ./setup.sh
+      - name: Build
+        run: ./build.sh
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
