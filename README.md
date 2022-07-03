@@ -19,3 +19,10 @@ cd /opt
 ```
 ./build.sh
 ```
+
+## Using Docker
+
+```
+docker compose run sdl_builder /bin/bash
+./build.sh
+```
