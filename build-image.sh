@@ -17,6 +17,7 @@ BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
 BUILDERS[linux_mipsel]="common"
 BUILDERS[android_arm]="cmake"
+BUILDERS[android_arm64]="cmake"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
@@ -29,6 +30,7 @@ EXTRA_ARGS[linux_arm_rpi]=""
 EXTRA_ARGS[linux_arm_vivante]=""
 EXTRA_ARGS[linux_mipsel]=""
 EXTRA_ARGS[android_arm]=""
+EXTRA_ARGS[android_arm64]=""
 EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
@@ -41,6 +43,7 @@ platforms=(
 	linux_arm_vivante
 	linux_mipsel
 	android_arm
+	android_arm64
 	darwin_amd64
 	windows_amd64
 	windows_386

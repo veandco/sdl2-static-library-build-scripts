@@ -17,6 +17,7 @@ BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
 BUILDERS[linux_mipsel]="common"
 BUILDERS[android_arm]="cmake"
+BUILDERS[android_arm64]="cmake"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
@@ -29,6 +30,7 @@ EXTRA_ARGS[linux_arm_rpi]="--disable-video-wayland --disable-video-vivante --ena
 EXTRA_ARGS[linux_arm_vivante]="--disable-video-wayland --enable-video-vivante --disable-video-rpi --disable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
 EXTRA_ARGS[linux_mipsel]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
 EXTRA_ARGS[android_arm]="-DSDL_HIDAPI=OFF -DSDL_OPENGL=OFF -DSDL_VULKAN=OFF"
+EXTRA_ARGS[android_arm64]="-DSDL_HIDAPI=OFF -DSDL_OPENGL=OFF -DSDL_VULKAN=OFF"
 EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
@@ -41,6 +43,7 @@ platforms=(
 	linux_arm_vivante
 	linux_mipsel
 	android_arm
+	android_arm64
 	darwin_amd64
 	windows_amd64
 	windows_386

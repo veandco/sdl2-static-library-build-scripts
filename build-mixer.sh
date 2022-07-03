@@ -42,6 +42,7 @@ platforms=(
 	linux_arm_vivante
 	linux_mipsel
 	android_arm
+	android_arm64
 	darwin_amd64
 	windows_amd64
 	windows_386
