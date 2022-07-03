@@ -10,7 +10,8 @@ RUN dpkg --add-architecture i386; \
         libgl-dev libgl-dev:i386  \
         gcc-mipsel-linux-gnu g++-mipsel-linux-gnu  \
         curl clang unzip wget gcc-arm-linux-gnueabi \
-        gcc-i686-linux-gnu gcc-mingw-w64 libxext-dev
+        gcc-i686-linux-gnu gcc-mingw-w64 libxext-dev \
+        xz-utils
 
 # Needed for compiler-rt in osxcross (https://github.com/tpoechtrager/osxcross/issues/214#issuecomment-595279668)
 RUN ln -sf /usr/bin/llvm-config-10 /usr/bin/llvm-config
@@ -29,8 +30,8 @@ FROM android_ndk as macos
 WORKDIR /opt
 
 RUN git clone https://github.com/tpoechtrager/osxcross; \
-    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX10.14.sdk.tar.xz; \
-    wget -P osxcross/tarballs https://go-sdl2.veandco.sg-sin1.upcloudobjects.com/MacOSX11.3.sdk.tar.xz
+    wget -P osxcross/tarballs https://s3.veand.co/go-sdl2/MacOSX10.14.sdk.tar.xz; \
+    wget -P osxcross/tarballs https://s3.veand.co/go-sdl2/MacOSX11.3.sdk.tar.xz
 
 WORKDIR /opt/osxcross
 
@@ -46,4 +47,4 @@ ENV ANDROID_NDK_TARGET_ABI "30"
 ENV PATH "${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
 ENV PATH "/opt/osxcross/target/bin:${PATH}"
 
-CMD tail -f /dev/null
+CMD /bin/bash
