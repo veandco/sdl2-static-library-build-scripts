@@ -4,14 +4,11 @@ projects=(
 	sdl2
 	image
 	mixer
-<<<<<<< HEAD
-	freetype
 	ttf
 	gfx
-=======
-	ttf
->>>>>>> 89e0b8a (update scripts to be more generic)
 )
+
+mkdir -p go-sdl2/.go-sdl2-libs
 
 for project in ${projects[@]}; do
 	./build-${project}.sh

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-ARCH=android_arm
+ARCH=android_arm64
 
 cd ${NAME}-${VERSION}
 rm -r build-${ARCH} 2> /dev/null
 
-export CC="armv7a-linux-androideabi32-clang"
-export CXX="armv7a-linux-androideabi32-clang++"
+export CC="aarch64-linux-android32-clang"
+export CXX="aarch64-linux-android32-clang++"
 mkdir -p build-${ARCH} && cd build-${ARCH}
 ../configure --prefix="$HOME/.${TARGET}" $@
 #../configure --prefix="$HOME/.${TARGET}" --with-libs="${ANDROID_NDK}/platforms/android-16/arch-arm/usr/lib" --with-headers="${ANDROID_NDK}/platforms/android-14/arch-arm/usr/include" $@
