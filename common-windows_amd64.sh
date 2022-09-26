@@ -14,7 +14,7 @@ mkdir -p build-${ARCH} && cd build-${ARCH}
 make -j$(nproc)
 make install
 cp ${LIBDIR}/lib${NAME}.a ${LIBDIR}/lib${NAME}.a.debug
-#strip ${LIBDIR}/lib${NAME}.a
+${TARGET}-strip --strip-unneeded ${LIBDIR}/lib${NAME}.a
 #ranlib ${LIBDIR}/lib${NAME}.a
 cp ${LIBDIR}/lib${NAME}.a ../.go-sdl2-libs/lib${NAME}_${ARCH}.a
 
