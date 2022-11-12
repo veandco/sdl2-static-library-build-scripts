@@ -2,7 +2,7 @@
 
 ARCH=linux_mipsel
 
-cd ${NAME}-${VERSION}
+cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
 
 export CC="mipsel-linux-gnu-gcc"

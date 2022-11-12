@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+ARCH=darwin_arm64
+
 cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
-SDK_VERSION=10.11
+SDK_VERSION=11.3
 OSXCROSS=/opt/osxcross
 DARWIN="${OSXCROSS}/target"
 DARWIN_SDK="${DARWIN}/SDK/MacOSX${SDK_VERSION}.sdk"

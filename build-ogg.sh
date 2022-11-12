@@ -3,13 +3,14 @@
 source versions
 source targets
 
-export NAME=SDL2_ttf
-export VERSION=${TTF_VERSION}
+export NAME=libogg
+export VERSION=${OGG_VERSION}
 export EXTRACT_COMMAND='unzip'
 export EXTENSION=zip
-export LIBDIR=.libs
-export LIBNAME=libSDL2_ttf
-export DIRNAME=${NAME}-${VERSION}
+export LIBDIR=src/.libs
+export LIBNAME=libogg
+export DIRNAME=libogg-${OGG_VERSION}
+export TARGET_LIBNAME=libogg
 
 declare -A BUILDERS
 BUILDERS[linux_amd64]="common"
@@ -18,7 +19,7 @@ BUILDERS[linux_arm]="common"
 BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
 BUILDERS[linux_mipsel]="common"
-BUILDERS[android_arm]="cmake"
+BUILDERS[android_arm]="common"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
 BUILDERS[windows_amd64]="common"
@@ -58,22 +59,24 @@ eprintln() {
 # Check if we have source code
 if ! [ -d "${DIRNAME}" ]; then
 	eprintln "${NAME} source doesn't exist"
-	if ! [ -e "${NAME}-${VERSION}.${EXTENSION}" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_ttf/release/${NAME}-${VERSION}.${EXTENSION}"
+	if ! [ -e "${NAME}-${OGG_VERSION}" ]; then
+		curl --fail -O -L "https://downloads.xiph.org/releases/ogg/${NAME}-${OGG_VERSION}.${EXTENSION}"
 		ret=$?
 		if [ $ret != 0 ]; then
-			eprintln "Could not download ${NAME}-${VERSION}.${EXTENSION}!"
+			eprintln "Could not download ${NAME}-${OGG_VERSION}.${EXTENSION}!"
 			exit $ret
 		fi
 	fi
 
-	${EXTRACT_COMMAND} "${NAME}-${VERSION}.${EXTENSION}"
+	${EXTRACT_COMMAND} "${NAME}-${OGG_VERSION}.${EXTENSION}"
 fi
 
-# Build SDL2_ttf for all platforms
+#./fix-jpeg.sh ${DIRNAME}
+
+# Build SDL2 for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2_ttf is already built for this platform
-	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
+	# Check if SDL2 is already built for this platform
+	if [ -e "${DIRNAME}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue
 	fi
@@ -81,5 +84,5 @@ for platform in ${platforms[@]}; do
 	eprintln "Building ${NAME} for $platform"
 	eprintln "PLATFORM: ${platform}"
 	eprintln "TARGET: ${TARGET}"
-	./common-${platform}.sh ${EXTRA_ARGS[$platform]}
+	./${BUILDERS[$platform]}-${platform}.sh ${EXTRA_ARGS[$platform]}
 done

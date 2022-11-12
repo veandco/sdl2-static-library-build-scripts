@@ -2,7 +2,7 @@
 
 ARCH=linux_arm_vivante
 
-cd ${NAME}-${VERSION}
+cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
 
 export CC="arm-linux-gnueabi-gcc"

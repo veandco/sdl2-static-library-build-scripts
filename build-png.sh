@@ -3,13 +3,14 @@
 source versions
 source targets
 
-export NAME=SDL2_ttf
-export VERSION=${TTF_VERSION}
+export NAME=libpng
+export VERSION=${PNG_VERSION}
 export EXTRACT_COMMAND='unzip'
 export EXTENSION=zip
 export LIBDIR=.libs
-export LIBNAME=libSDL2_ttf
-export DIRNAME=${NAME}-${VERSION}
+export LIBNAME=libpng16
+export DIRNAME=lpng${VERSION}
+export TARGET_LIBNAME=libpng
 
 declare -A BUILDERS
 BUILDERS[linux_amd64]="common"
@@ -58,22 +59,24 @@ eprintln() {
 # Check if we have source code
 if ! [ -d "${DIRNAME}" ]; then
 	eprintln "${NAME} source doesn't exist"
-	if ! [ -e "${NAME}-${VERSION}.${EXTENSION}" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_ttf/release/${NAME}-${VERSION}.${EXTENSION}"
+	if ! [ -e "lpng${VERSION}.${EXTENSION}" ]; then
+		curl --fail -O -L "https://download.sourceforge.net/libpng/lpng${VERSION}.${EXTENSION}"
 		ret=$?
 		if [ $ret != 0 ]; then
-			eprintln "Could not download ${NAME}-${VERSION}.${EXTENSION}!"
+			eprintln "Could not download lpng${VERSION}!"
 			exit $ret
 		fi
 	fi
 
-	${EXTRACT_COMMAND} "${NAME}-${VERSION}.${EXTENSION}"
+	${EXTRACT_COMMAND} "lpng${VERSION}.${EXTENSION}"
 fi
 
-# Build SDL2_ttf for all platforms
+./fix-png.sh ${DIRNAME}
+
+# Build SDL2 for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2_ttf is already built for this platform
-	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
+	# Check if SDL2 is already built for this platform
+	if [ -e "${DIRNAME}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue
 	fi
@@ -81,5 +84,5 @@ for platform in ${platforms[@]}; do
 	eprintln "Building ${NAME} for $platform"
 	eprintln "PLATFORM: ${platform}"
 	eprintln "TARGET: ${TARGET}"
-	./common-${platform}.sh ${EXTRA_ARGS[$platform]}
+	./${BUILDERS[$platform]}-${platform}.sh ${EXTRA_ARGS[$platform]}
 done

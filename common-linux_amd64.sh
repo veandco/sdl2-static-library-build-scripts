@@ -2,7 +2,7 @@
 
 ARCH=linux_amd64
 
-cd ${NAME}-${VERSION}
+cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
 
 export PATH="$HOME/.${TARGET}/bin:${PATH}"

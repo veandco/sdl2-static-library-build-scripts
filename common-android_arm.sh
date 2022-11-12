@@ -2,7 +2,7 @@
 
 ARCH=android_arm
 
-cd ${NAME}-${VERSION}
+cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
 
 ANDROID_NDK="/usr/lib/android-ndk"

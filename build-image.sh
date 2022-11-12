@@ -3,12 +3,12 @@
 source versions
 source targets
 
-export NAME=SDL2_ttf
-export VERSION=${TTF_VERSION}
+export NAME=SDL2_image
+export VERSION=${IMG_VERSION}
 export EXTRACT_COMMAND='unzip'
 export EXTENSION=zip
 export LIBDIR=.libs
-export LIBNAME=libSDL2_ttf
+export LIBNAME=libSDL2_image
 export DIRNAME=${NAME}-${VERSION}
 
 declare -A BUILDERS
@@ -59,7 +59,7 @@ eprintln() {
 if ! [ -d "${DIRNAME}" ]; then
 	eprintln "${NAME} source doesn't exist"
 	if ! [ -e "${NAME}-${VERSION}.${EXTENSION}" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_ttf/release/${NAME}-${VERSION}.${EXTENSION}"
+		curl --fail -O -L "https://libsdl.org/projects/SDL_image/release/${NAME}-${VERSION}.${EXTENSION}"
 		ret=$?
 		if [ $ret != 0 ]; then
 			eprintln "Could not download ${NAME}-${VERSION}.${EXTENSION}!"
@@ -70,9 +70,9 @@ if ! [ -d "${DIRNAME}" ]; then
 	${EXTRACT_COMMAND} "${NAME}-${VERSION}.${EXTENSION}"
 fi
 
-# Build SDL2_ttf for all platforms
+# Build SDL2_image for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2_ttf is already built for this platform
+	# Check if SDL2_image is already built for this platform
 	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue
