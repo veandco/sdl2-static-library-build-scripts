@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 
-if [ -z $MIX_VERSION ]; then
-	MIX_VERSION=2.0.4
-fi
-
-export NAME=SDL2_mixer
-export VERSION=$MIX_VERSION
-export EXTRACT_COMMAND='unzip'
-export EXTENSION=zip
-export LIBDIR=build/.libs
-export LIBNAME=libSDL2_mixer
-export DIRNAME=${NAME}-${VERSION}
-
+source platforms
+source versions
 source targets
+
+export NAME=zlib
+export VERSION=${ZLIB_VERSION}
+export EXTRACT_COMMAND='tar xf'
+export EXTENSION=tar.gz
+export LIBDIR=.
+export LIBNAME=libz
+export DIRNAME=${NAME}-${VERSION}
 
 declare -A BUILDERS
 BUILDERS[linux_amd64]="common"
@@ -20,7 +18,7 @@ BUILDERS[linux_386]="common"
 BUILDERS[linux_arm]="common"
 BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
-BUILDERS[linux_mipsel]="common"
+BUILDERS[linux_mipsle]="common"
 BUILDERS[android_arm]="cmake"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
@@ -33,36 +31,22 @@ EXTRA_ARGS[linux_386]=""
 EXTRA_ARGS[linux_arm]=""
 EXTRA_ARGS[linux_arm_rpi]=""
 EXTRA_ARGS[linux_arm_vivante]=""
-EXTRA_ARGS[linux_mipsel]=""
+EXTRA_ARGS[linux_mipsle]=""
 EXTRA_ARGS[android_arm]=""
 EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[darwin_arm64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
 
-platforms=(
-	linux_amd64
-	linux_386
-	linux_arm
-	linux_arm_rpi
-	linux_arm_vivante
-	linux_mipsel
-	#android_arm
-	darwin_amd64
-	darwin_arm64
-	windows_amd64
-	windows_386
-)
-
 eprintln() {
 	echo "$1" >&2
 }
 
 # Check if we have source code
-if ! [ -d "${NAME}-${VERSION}" ]; then
+if ! [ -d "${DIRNAME}" ]; then
 	eprintln "${NAME} source doesn't exist"
 	if ! [ -e "${NAME}-${VERSION}.${EXTENSION}" ]; then
-		curl --fail -O -L "https://libsdl.org/projects/SDL_mixer/release/${NAME}-${VERSION}.${EXTENSION}"
+		curl --fail -O -L "https://zlib.net/${NAME}-${VERSION}.${EXTENSION}"
 		ret=$?
 		if [ $ret != 0 ]; then
 			eprintln "Could not download ${NAME}-${VERSION}.${EXTENSION}!"
@@ -73,10 +57,10 @@ if ! [ -d "${NAME}-${VERSION}" ]; then
 	${EXTRACT_COMMAND} "${NAME}-${VERSION}.${EXTENSION}"
 fi
 
-# Build SDL2_mixer for all platforms
+# Build SDL2 for all platforms
 for platform in ${platforms[@]}; do
-	# Check if SDL2_mixer is already built for this platform
-	if [ -e "${NAME}-${VERSION}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
+	# Check if already built for this platform
+	if [ -e "${DIRNAME}/.go-sdl2-libs/lib${NAME}_${platform}.a" ]; then
 		eprintln "${NAME} has already been built for ${platform}"
 		continue
 	fi
@@ -84,6 +68,5 @@ for platform in ${platforms[@]}; do
 	eprintln "Building ${NAME} for $platform"
 	eprintln "PLATFORM: ${platform}"
 	eprintln "TARGET: ${TARGET}"
-	./common-${platform}.sh ${EXTRA_ARGS[$platform]}
-	cp "${NAME}-${VERSION}/.go-sdl2-libs/${LIBNAME}_${platform}.a" go-sdl2/.go-sdl2-libs/
+	./${BUILDERS[$platform]}-${platform}.sh ${EXTRA_ARGS[$platform]}
 done

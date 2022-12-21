@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source platforms
 source versions
 source targets
 
@@ -18,7 +19,7 @@ BUILDERS[linux_386]="common"
 BUILDERS[linux_arm]="common"
 BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
-BUILDERS[linux_mipsel]="common"
+BUILDERS[linux_mipsle]="common"
 BUILDERS[android_arm]="common"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
@@ -31,26 +32,12 @@ EXTRA_ARGS[linux_386]="--enable-static"
 EXTRA_ARGS[linux_arm]="--enable-static"
 EXTRA_ARGS[linux_arm_rpi]="--enable-static"
 EXTRA_ARGS[linux_arm_vivante]="--enable-static"
-EXTRA_ARGS[linux_mipsel]="--enable-static"
+EXTRA_ARGS[linux_mipsle]="--enable-static"
 EXTRA_ARGS[android_arm]="--enable-static"
 EXTRA_ARGS[darwin_amd64]="--enable-static"
 EXTRA_ARGS[darwin_arm64]="--enable-static"
 EXTRA_ARGS[windows_amd64]="--enable-static"
 EXTRA_ARGS[windows_386]="--enable-static"
-
-platforms=(
-	linux_amd64
-	linux_386
-	linux_arm
-	linux_arm_rpi
-	linux_arm_vivante
-	linux_mipsel
-	android_arm
-	darwin_amd64
-	darwin_arm64
-	windows_amd64
-	windows_386
-)
 
 eprintln() {
 	echo "$1" >&2

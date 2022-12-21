@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source platforms
 source versions
 source targets
 
@@ -17,8 +18,9 @@ BUILDERS[linux_386]="common"
 BUILDERS[linux_arm]="common"
 BUILDERS[linux_arm_rpi]="common"
 BUILDERS[linux_arm_vivante]="common"
-BUILDERS[linux_mipsel]="common"
-BUILDERS[android_arm]="cmake"
+BUILDERS[linux_mipsle]="common"
+BUILDERS[android_arm]="common"
+BUILDERS[android_arm64]="common"
 BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
 BUILDERS[windows_amd64]="common"
@@ -30,26 +32,13 @@ EXTRA_ARGS[linux_386]="--disable-pulseaudio"
 EXTRA_ARGS[linux_arm]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
 EXTRA_ARGS[linux_arm_rpi]="--disable-video-wayland --disable-video-vivante --enable-video-rpi --disable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
 EXTRA_ARGS[linux_arm_vivante]="--disable-video-wayland --enable-video-vivante --disable-video-rpi --disable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[linux_mipsel]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
-EXTRA_ARGS[android_arm]="-DSDL_HIDAPI=OFF -DSDL_OPENGL=OFF -DSDL_VULKAN=OFF"
+EXTRA_ARGS[linux_mipsle]="--disable-video-wayland --disable-video-vivante --disable-video-rpi --enable-video-x11 --enable-video-opengl --disable-video-kmsdrm --disable-pulseaudio --enable-video-opengles"
+EXTRA_ARGS[android_arm]="--disable-hidapi"
+EXTRA_ARGS[android_arm64]="--disable-hidapi"
 EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[darwin_arm64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
-
-platforms=(
-	linux_amd64
-	linux_386
-	linux_arm
-	linux_arm_rpi
-	linux_arm_vivante
-	linux_mipsel
-	android_arm
-	darwin_amd64
-	darwin_arm64
-	windows_amd64
-	windows_386
-)
 
 eprintln() {
 	echo "$1" >&2

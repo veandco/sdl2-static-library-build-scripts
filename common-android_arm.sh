@@ -4,19 +4,28 @@ ARCH=android_arm
 
 cd ${DIRNAME}
 rm -r build-${ARCH} 2> /dev/null
-
-ANDROID_NDK="/usr/lib/android-ndk"
-ANDROID_STANDALONE_TOOLCHAIN="$ANDROID_NDK/toolchains/arm-linux-androideabi-4.9"
-TOOLCHAIN_PREFIX=arm-linux-android-eabi
-export PATH="$ANDROID_STANDALONE_TOOLCHAIN/prebuilt/linux-x86_64/bin:$PATH"
-export CC="${TARGET}-gcc"
-export CXX="${TARGET}-g++"
 mkdir -p build-${ARCH} && cd build-${ARCH}
-../configure --prefix="$HOME/.${TARGET}" $@
-#../configure --prefix="$HOME/.${TARGET}" --with-libs="${ANDROID_NDK}/platforms/android-16/arch-arm/usr/lib" --with-headers="${ANDROID_NDK}/platforms/android-14/arch-arm/usr/include" $@
+
+export NDK=/opt/android-ndk-r25b
+
+export TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
+export API=21
+export AR=$TOOLCHAIN/bin/llvm-ar
+export CC=$TOOLCHAIN/bin/$TARGET$API-clang
+export AS=$CC
+export CXX=$TOOLCHAIN/bin/$TARGET$API-clang++
+export LD=$TOOLCHAIN/bin/ld
+export RANLIB=$TOOLCHAIN/bin/llvm-ranlib
+export STRIP=$TOOLCHAIN/bin/llvm-strip
+export CFLAGS="-fPIE -fPIC"
+export LDFLAGS="-pie -lOpenSLES"
+#export CFLAGS="-g -O2 -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb"
+#export LDFLAGS="-march=armv7-a -Wl,--fix-cortex-a8 -lOpenSLES"
+#export LDFLAGS="-L$TOOLCHAIN/sysroot/usr/lib/arm-linux-androideabi/$API -lhidapi -lOpenSLES"
+../configure --prefix="$HOME/.${TARGET}" --host $TARGET $@
 make -j$(nproc)
 make install
 cp ${LIBDIR}/${LIBNAME}.a ${LIBDIR}/${LIBNAME}.a.debug
-${TARGET}-strip --strip-unneeded ${LIBDIR}/${LIBNAME}.a
-#${TARGET}-ranlib ${LIBDIR}/${LIBNAME}.a
+${STRIP} --strip-unneeded ${LIBDIR}/${LIBNAME}.a
+${RANLIB} ${LIBDIR}/${LIBNAME}.a
 cp ${LIBDIR}/${LIBNAME}.a ../.go-sdl2-libs/${LIBNAME}_${ARCH}.a
