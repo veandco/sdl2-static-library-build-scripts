@@ -13,4 +13,5 @@ export platforms=(
 	darwin_arm64
 	windows_amd64
 	windows_386
+	freebsd_amd64
 )

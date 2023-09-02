@@ -24,6 +24,7 @@ BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
 BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
+BUILDERS[freebsd_amd64]="cmake"
 
 declare -A EXTRA_ARGS
 EXTRA_ARGS[linux_amd64]="--enable-freetype-config"
@@ -37,6 +38,7 @@ EXTRA_ARGS[darwin_amd64]="--enable-freetype-config"
 EXTRA_ARGS[darwin_arm64]="--enable-freetype-config --with-bzip2=no --with-zlib=no"
 EXTRA_ARGS[windows_amd64]="--enable-freetype-config"
 EXTRA_ARGS[windows_386]="--enable-freetype-config"
+EXTRA_ARGS[freebsd_amd64]=""
 
 eprintln() {
 	echo "$1" >&2

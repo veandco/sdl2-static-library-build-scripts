@@ -25,6 +25,7 @@ BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
 BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
+BUILDERS[freebsd_amd64]="common"
 
 declare -A EXTRA_ARGS
 EXTRA_ARGS[linux_amd64]="--enable-static"
@@ -38,6 +39,7 @@ EXTRA_ARGS[darwin_amd64]="--enable-static"
 EXTRA_ARGS[darwin_arm64]="--enable-static"
 EXTRA_ARGS[windows_amd64]="--enable-static"
 EXTRA_ARGS[windows_386]="--enable-static"
+EXTRA_ARGS[freebsd_amd64]="--enable-static"
 
 eprintln() {
 	echo "$1" >&2

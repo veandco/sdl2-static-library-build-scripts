@@ -25,6 +25,7 @@ BUILDERS[darwin_amd64]="common"
 BUILDERS[darwin_arm64]="common"
 BUILDERS[windows_amd64]="common"
 BUILDERS[windows_386]="common"
+BUILDERS[freebsd_amd64]="cmake"
 
 declare -A EXTRA_ARGS
 EXTRA_ARGS[linux_amd64]="--disable-pulseaudio"
@@ -39,6 +40,7 @@ EXTRA_ARGS[darwin_amd64]=""
 EXTRA_ARGS[darwin_arm64]=""
 EXTRA_ARGS[windows_amd64]=""
 EXTRA_ARGS[windows_386]=""
+EXTRA_ARGS[freebsd_amd64]=""
 
 eprintln() {
 	echo "$1" >&2
