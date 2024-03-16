@@ -11,8 +11,8 @@ ln -sf /usr/bin/llvm-config-10 /usr/bin/llvm-config
 # macOS Only
 git clone https://github.com/tpoechtrager/osxcross
 cd osxcross/tarballs
-curl -O https://s3.veand.co/go-sdl2/MacOSX11.3.sdk.tar.xz
-curl -O https://s3.veand.co/go-sdl2/MacOSX10.14.sdk.tar.xz
+curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz
+curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz
 cd ..
 SDK_VERSION=11.3 ./build.sh
 SDK_VERSION=10.14 ./build.sh
